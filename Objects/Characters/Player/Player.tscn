@@ -1,16 +1,21 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Objects/Characters/Player/Player.gd" type="Script" id=1]
-[ext_resource path="res://Objects/Characters/EntityTemplate/entity.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Objects/Characters/Player/Player.tres" type="SpriteFrames" id=3]
+[ext_resource path="res://Objects/Characters/Player/Player.tres" type="SpriteFrames" id=2]
 
-[node name="Player" type="Node2D"]
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 10, 19.6458 )
+
+[node name="Player" type="KinematicBody2D"]
 script = ExtResource( 1 )
 
-[node name="physicsbody" parent="." instance=ExtResource( 2 )]
-
-[node name="AnimatedSprite" type="AnimatedSprite" parent="physicsbody"]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( -0.489931, -9.98856 )
 scale = Vector2( 1.10943, 1.08244 )
-frames = ExtResource( 3 )
+frames = ExtResource( 2 )
 animation = "jumping"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.323532, -11.9708 )
+shape = SubResource( 1 )
+

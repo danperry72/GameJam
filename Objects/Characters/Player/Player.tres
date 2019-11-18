@@ -31,7 +31,7 @@ animations = [ {
 "frames": [ ExtResource( 1 ), ExtResource( 2 ) ],
 "loop": true,
 "name": "idle",
-"speed": 10.0
+"speed": 3.0
 }, {
 "frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ],
 "loop": true,
@@ -53,3 +53,4 @@ animations = [ {
 "name": "jumping",
 "speed": 10.0
 } ]
+

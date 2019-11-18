@@ -9,7 +9,6 @@ export(float) var gravity = 300.0
 export(float) var max_speed = 200.0
 var group = "enemy"
 var floor_normal = Vector2(0,-1)
-var anim 
 var facing = "right"
 var INPUT = {"x":["idle"], "y":[], "attack":[]}
 var attack_state = "idle"
@@ -18,19 +17,12 @@ onready var hitbox = get_node("CollisionShape2D")
 var HP = max_HP
 var attacked_by
 var dead_state = false
-
+var entityType
+var anim
 var camera = preload("res://scenes/camera.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	anim = get_node("AnimatedSprite")
-	hitbox = get_node("CollisionShape2D")
-	hitbox.apply_scale(anim.scale)
-	add_camera()
-		
-func add_camera():
-	if self.get_parent().entityType() == "Player":
-		var cameraNode = camera.instance()
-		self.add_child(cameraNode)
 		
 func get_input():
 
@@ -60,8 +52,9 @@ func attack(type, attacker):
 	for i in range(get_slide_count() - 1):
 		var collision = get_slide_collision(i)
 		if collision.collider.get_class() == "KinematicBody2D":
-			collision.collider.damage(5)
-			collision.collider.attacked_by(self)
+			if collision.collider.state != "dying":
+				collision.collider.damage(5)
+				collision.collider.attacked_by(self)
 			
 func attacked_by(entity):
 	attacked_by = entity
