@@ -1,4 +1,4 @@
-extends Node2D
+extends Node2D	
 
 onready var tilemap = get_node("TileMap")
 var transform_speed = 0
@@ -7,6 +7,9 @@ var index = 0
 var master_id = 5 
 var used_cells
 var change = false
+var chunk_speed = 10
+
+onready var new_shader = preload("res://shaders/new_shader.shader")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -19,25 +22,26 @@ func get_cells():
 	return tilemap.get_used_cells()
 		
 func super_set_cells():
+	
 	for i in used_cells:
-		set_cell(used_cells[i], master_id)
-	#t += 1
-	#if t >= transform_speed:
-	#	if index >= len(used_cells):
-	#		index = 0
-	#		change = false
-	#	set_cell(used_cells[index], master_id)
-	#	t = 0
-	#	index += 1
+		set_cell(i, master_id)
+
+	index += 1
+
 
 func trigger(colour):
 	if colour == "Grey":
-		master_id = 5
+		var mat = ShaderMaterial.new()
+		mat.set_shader(new_shader)
+		tilemap.set_material(mat)
 	elif colour == "Brown":
 		master_id = 6
 	change = true
-	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+
+func _physics_process(delta):
 	if change:
 		super_set_cells()
+		#change = false
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
