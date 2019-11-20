@@ -6,6 +6,7 @@ var reaction_time
 
 export(float) var attack_range = 100.0
 export(float) var aggro_range = 200.0
+const enemy_instance = preload("res://Dino.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	entityType = "Enemy"
@@ -42,5 +43,9 @@ func react():
 
 func die():
 	print("ENEMY IS DEAD")
+	for i in range(0,10):
+		var instance = enemy_instance.instance()
+		instance.set_position(self.get_position())
 	yield(self.anim, "animation_finished")
 	get_parent().remove_child(self)
+	

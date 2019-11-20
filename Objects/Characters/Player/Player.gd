@@ -36,18 +36,23 @@ func entityType():
 	print(entityType)
 	return entityType
 	
-func shift_colour():
+func shift_colour(colour):
 	if tilemap.change != true:
-		if background_colour == "Brown":
-			background_colour = "Grey"
-		elif background_colour == "Grey":
-			background_colour = "Brown"
-		tilemap.trigger(background_colour)
+#		if background_colour == "Brown":
+#			background_colour = "Grey"
+#		elif background_colour == "Grey":
+#			background_colour = "Brown"
+		
+		tilemap.trigger(colour)
 
 
 func input():
-	if(Input.is_action_pressed("colour_shift")):
-		shift_colour()
+	if(Input.is_action_pressed("colour_shift_red")):
+		shift_colour(1)
+	if(Input.is_action_pressed("colour_shift_green")):
+		shift_colour(2)
+	if(Input.is_action_pressed("colour_shift_blue")):
+		shift_colour(3)
 	if(Input.is_action_pressed("left")):
 		self.change_input("x","left")
 	elif(Input.is_action_pressed("right")):
