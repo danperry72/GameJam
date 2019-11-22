@@ -1,7 +1,7 @@
 extends entity
 
 var tilemap
-var background_colour = "Brown"# Called when the node enters the scene tree for the first time.
+onready var rootNode = get_tree().get_root().get_node("Root")
 func _ready():
 	#body = get_node("physicsbody")
 	entityType = "Player"
@@ -38,21 +38,19 @@ func entityType():
 	
 func shift_colour(colour):
 	if tilemap.change != true:
-#		if background_colour == "Brown":
-#			background_colour = "Grey"
-#		elif background_colour == "Grey":
-#			background_colour = "Brown"
-		
 		tilemap.trigger(colour)
 
 
 func input():
 	if(Input.is_action_pressed("colour_shift_red")):
 		shift_colour(1)
+		rootNode.set_colour(1.0)
 	if(Input.is_action_pressed("colour_shift_green")):
 		shift_colour(2)
+		rootNode.set_colour(2.0)
 	if(Input.is_action_pressed("colour_shift_blue")):
 		shift_colour(3)
+		rootNode.set_colour(3.0)
 	if(Input.is_action_pressed("left")):
 		self.change_input("x","left")
 	elif(Input.is_action_pressed("right")):

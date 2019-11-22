@@ -1,11 +1,5 @@
 extends Node2D	
-#
-#onready var tilemap = get_node("TileMap")
-#var transform_speed = 0
-#var t = transform_speed
-#var index = 0
-#var master_id = 5 
-#var used_cells
+
 var change = true
 var radius = 0.0
 var current_colour = 1.0
@@ -18,7 +12,6 @@ func trigger(colour):
 		current_colour = colour
 		change = true
 	background.material.set_shader_param("colour_mode", current_colour)
-
 
 func _physics_process(delta):
 	if change:
