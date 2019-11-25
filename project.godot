@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "entity",
 "language": "GDScript",
 "path": "res://Objects/Characters/EntityTemplate/entity.gd"
+}, {
+"base": "StaticBody2D",
+"class": "staticEntity",
+"language": "GDScript",
+"path": "res://StaticEntity.gd"
 } ]
 _global_script_class_icons={
 "Enemy": "",
-"entity": ""
+"entity": "",
+"staticEntity": ""
 }
 
 [application]

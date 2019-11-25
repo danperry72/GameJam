@@ -7,39 +7,16 @@ func _ready():
 	entityType = "Player"
 	anim = get_node("AnimatedSprite")
 	hitbox = get_node("CollisionShape2D")
-	tilemap = get_node("../ParallaxBackground/Background")
+	tilemap = get_node("../Background")
 	add_camera()
 
 func add_camera():
 	var cameraNode = camera.instance()
 	self.add_child(cameraNode)
-
-func update_sprite():
-	if state == "dying":
-		if not dead_state:
-			anim.connect("animation_finished", self, "die")
-			dead_state = true
-		anim.play(state)
-		velocity = Vector2(0,0)
-	else:
-		if attack_state != "idle":
-			anim.play(attack_state)
-		else:
-			anim.play(state)
-	
-		if facing == "right":
-			anim.set_flip_h( false )
-		else:
-			anim.set_flip_h( true )
-
-func entityType():
-	print(entityType)
-	return entityType
 	
 func shift_colour(colour):
 	if tilemap.change != true:
 		tilemap.trigger(colour)
-
 
 func input():
 	if(Input.is_action_pressed("colour_shift_red")):
@@ -61,8 +38,16 @@ func input():
 		self.change_input("x","idle")
 	else:
 		self.change_input("x","idle")
-	if(Input.is_action_just_pressed("jump")):
-		self.change_input("y","jump")
+		
+	if(Input.is_action_just_pressed("up")):
+		self.change_input("y","up")
+	elif(Input.is_action_just_pressed("down")):
+		self.change_input("y","down")
+	elif(Input.is_action_just_released("up")):
+		self.change_input("y","idle")
+	elif(Input.is_action_just_released("down")):
+		self.change_input("y","idle")
+
 	if(Input.is_mouse_button_pressed(1)):
 		self.change_input("attack", "basic")
 	else:
