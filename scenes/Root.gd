@@ -5,13 +5,24 @@ onready var tilemap = get_node("Background/TopDown")
 var COLOUR = 0.0;
 var spawn_time = 600;
 var t = 0
-
+var roomlist = []
 onready var player = get_node("Player")
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	randomize()
 	spawn_enemies()
 	generate_level()
-		
+	place_player()
+	
+func place_player():
+	var rand_room_n = randi()%len(roomlist)
+	var coords = room_middle( roomlist[rand_room_n]  )
+	var world_coords = coords * 16.0
+	player.global_position = world_coords
+
+func room_middle(room):
+	return Vector2(room[round(len(room) / 2.0)][0], room[round(len(room) / 2.0)][1])
+
 func spawn_enemies():
 	for i in range(0,3): # Replace with function body.
 		var instance = GoblinNode.instance()
@@ -23,29 +34,33 @@ func spawn_enemies():
 func set_colour(colour):
 	COLOUR = colour
 
-func get_chances(x,y):
-	var l_wall_threshold = 1
-	var r_wall_threshold = 50
-	var ceil_threshold = 1
-	var floor_threshold = 50
-	var chance = 0
-	if x <= l_wall_threshold or x >= r_wall_threshold or y >= floor_threshold or y <= ceil_threshold:
-		chance = 1.0
-		return chance
-	else:
-		var left = tilemap.get_cell(x + 1, y)
-		var right = tilemap.get_cell(x - 1, y)
-		var above = tilemap.get_cell(x,y-1)
-		var below = tilemap.get_cell(x,y+1)
-		if left != -1 or right != -1 or above != -1 or below != -1:
-			chance = 0.7
-			return chance
-	return chance
-
 func generate_level():
 	var id = 12
+	var offset = Vector2(0.0,0.0)
+	var room_pos = Vector2(0.0,0.0)
+	var offset_mag = 30
+	var offshoots = 1
 	for i in range(0,8):
-		room(i * 30, 0.0, randi()%25+5, randi()%25+5)
+		if i != 0:
+			var last_room_pos = Vector2(roomlist[i - 1][0][0],roomlist[i - 1][0][1])
+
+			if rand_range(0,1) > 0.6:
+				offshoots = floor(rand_range(0,4))
+
+			for i in range(0, offshoots):
+				if rand_range(0,1) > 0.5:
+					offset = Vector2(offset_mag, 0.0)
+				else:
+					offset = Vector2(0.0, offset_mag)
+				roomlist.append(room( last_room_pos + offset, round(rand_range(5,25)),  round(rand_range(5,25))))
+		else:
+			roomlist.append(room( room_pos, round(rand_range(5,25)),  round(rand_range(5,25))))
+			
+			
+		if i != 0:
+			var point_a = room_middle( roomlist[i] )
+			var point_b = room_middle( roomlist[i - 1] )
+			corridor( Vector2(point_a[0], point_a[1]),  Vector2(point_b[0], point_b[1])  )
 
 	for i in tilemap.get_used_cells():
 		var x = i[0]
@@ -56,19 +71,33 @@ func generate_level():
 		var below = tilemap.get_cell(x, y + 1)
 
 		if above == -1:
-			tilemap.set_cell(x, y - 1 , 27)
+			tilemap.set_cell(x, y - 1 , 30)
 		if below == -1:
-			tilemap.set_cell(x, y + 1, 43)
+			tilemap.set_cell(x, y + 1, 30)
 		if left == -1:
-			tilemap.set_cell(x - 1, y, 37)
+			tilemap.set_cell(x - 1, y, 30)
 		if right == -1:
-			tilemap.set_cell(x + 1, y, 34)
+			tilemap.set_cell(x + 1, y, 30)
 
-func room(x,y,size_x,size_y):
-	for i in range(x, x + size_x):
-		for j in range(y, y + size_y):
+func room(pos,size_x,size_y):
+	var room_cells = []
+	var x = pos.x
+	var y = pos.y
+	for i in range(x, x + size_x + 1):
+		for j in range(y, y + size_y + 1):
+			room_cells.append([i, j])
 			tilemap.set_cell(i, j, 12)
-				
+	return room_cells
+	
+func corridor(point_a, point_b):
+	var vec_diff = point_b - point_a
+	
+	for x in range(0, vec_diff.x + 1 * sign(vec_diff.x),  sign(vec_diff.x)):
+		for i in range(0,2):
+			tilemap.set_cell(point_a.x + x, point_a.y + i, 12)
+		
+	for y in range(0, vec_diff.y + 1, sign(vec_diff.y)):
+		tilemap.set_cell(point_a.x, point_a.y + y, 12)
 
 func get_colour():
 	return COLOUR 

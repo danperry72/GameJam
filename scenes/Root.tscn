@@ -32,10 +32,10 @@ tile_set = ExtResource( 4 )
 cell_size = Vector2( 16, 16 )
 occluder_light_mask = 2
 format = 1
-tile_data = PoolIntArray( 524309, 43, 0 )
 
 [node name="Turret" parent="." instance=ExtResource( 5 )]
 position = Vector2( 124.699, 58.9671 )
 
 [node name="Turret2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 397.549, 159.744 )
+
