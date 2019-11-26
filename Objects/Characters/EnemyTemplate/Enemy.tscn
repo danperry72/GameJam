@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Objects/Characters/EnemyTemplate/Enemy.gd" type="Script" id=1]
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=1]
 
 [node name="Enemy" type="KinematicBody2D"]
 script = ExtResource( 1 )
@@ -12,5 +12,4 @@ animation = "running"
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 2 )
-
+shape = SubResource( 1 )

@@ -58,6 +58,7 @@ func dying():
 	state = "dying"
 
 func die():
+	dead_state = true
 	get_parent().die()
 		
 func change_input(type, value):

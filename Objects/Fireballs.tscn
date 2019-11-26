@@ -1,6 +1,6 @@
 [gd_scene load_steps=64 format=2]
 
-[ext_resource path="res://Objects/Characters/EntityTemplate/entity.gd" type="Script" id=1]
+[ext_resource path="res://Objects/Fireballs.gd" type="Script" id=1]
 [ext_resource path="res://assets/Fireball/tile000.png" type="Texture" id=2]
 [ext_resource path="res://assets/Fireball/tile001.png" type="Texture" id=3]
 [ext_resource path="res://assets/Fireball/tile002.png" type="Texture" id=4]
@@ -75,19 +75,19 @@ radius = 3.26306
 height = 13.797
 
 [node name="Node2D" type="KinematicBody2D"]
-position = Vector2( 0.183658, 0.0586901 )
+position = Vector2( 0, 0.0660229 )
 scale = Vector2( 0.493668, 0.561344 )
+collision_mask = 2
 script = ExtResource( 1 )
+max_speed = 300.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 rotation = 1.5708
 frames = SubResource( 1 )
 animation = "idle"
-frame = 40
+frame = 43
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -0.35849, -23.3017 )
-rotation = -0.00781642
+position = Vector2( -0.267479, -23.4053 )
 shape = SubResource( 2 )
-

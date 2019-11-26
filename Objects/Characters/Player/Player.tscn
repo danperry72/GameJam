@@ -10,7 +10,7 @@
 [ext_resource path="res://assets/Knight/tile007.png" type="Texture" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 10, 8.45033 )
+extents = Vector2( 5.2999, 8.45033 )
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -37,6 +37,5 @@ shape = SubResource( 1 )
 position = Vector2( 0.366257, -17.4862 )
 frames = SubResource( 2 )
 animation = "running"
-frame = 2
+frame = 3
 playing = true
-

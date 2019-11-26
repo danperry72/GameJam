@@ -8,7 +8,7 @@
 shader = ExtResource( 1 )
 shader_param/colour_mode = 1
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 10, 8.00379 )
 
 [node name="Goblin" type="KinematicBody2D"]
@@ -26,5 +26,4 @@ playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 1.14394, 0.571976 )
-shape = SubResource( 3 )
-
+shape = SubResource( 2 )
