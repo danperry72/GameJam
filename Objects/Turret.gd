@@ -10,7 +10,7 @@ onready var rootNode = get_tree().get_root().get_node("Root")
 func _ready():
 	if START_COLOUR == 0.0:
 		COLOUR = randi()%3+1
-		print(COLOUR)
+
 	else:
 		COLOUR = START_COLOUR
 	var mat = ShaderMaterial.new()

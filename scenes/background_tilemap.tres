@@ -728,4 +728,3 @@ polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 60/navigation_offset = Vector2( 0, 0 )
 60/shapes = [  ]
 60/z_index = 0
-

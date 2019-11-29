@@ -3,7 +3,7 @@
 [ext_resource path="res://scenes/Root.gd" type="Script" id=1]
 [ext_resource path="res://Objects/Characters/Player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/Background.gd" type="Script" id=3]
-[ext_resource path="res://scenes/background_tilemap.tres" type="TileSet" id=4]
+[ext_resource path="res://assets/Tilesets/background.tres" type="TileSet" id=4]
 [ext_resource path="res://Objects/Turret.tscn" type="PackedScene" id=5]
 
 [node name="Root" type="Node2D"]
@@ -17,25 +17,26 @@ __meta__ = {
 position = Vector2( 76.1055, 76.5911 )
 z_index = 2
 z_as_relative = false
+collision_layer = 2
+collision_mask = 2
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="Background" type="Node2D" parent="."]
 use_parent_material = true
-position = Vector2( -185.708, -33.9112 )
+position = Vector2( 0, 0.2365 )
 script = ExtResource( 3 )
 
 [node name="TopDown" type="TileMap" parent="Background"]
 use_parent_material = true
-position = Vector2( 0, 7.03233 )
 tile_set = ExtResource( 4 )
 cell_size = Vector2( 16, 16 )
 occluder_light_mask = 2
 format = 1
+tile_data = PoolIntArray( 393222, 0, 0, 393224, 1, 0, 655368, 0, 0, 655369, 0, 0, 655370, 0, 0 )
 
 [node name="Turret" parent="." instance=ExtResource( 5 )]
 position = Vector2( 124.699, 58.9671 )
 
 [node name="Turret2" parent="." instance=ExtResource( 5 )]
-position = Vector2( 397.549, 159.744 )
-
+position = Vector2( 160.965, 130 )
