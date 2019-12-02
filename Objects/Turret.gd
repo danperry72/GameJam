@@ -1,6 +1,6 @@
 extends staticEntity
 
-onready var background = get_node("../Background")
+#onready var background = get_node("../Background")
 onready var fireball = preload("res://Objects/Fireballs.tscn")
 var firerate = 5;
 export(float) var START_COLOUR = 0.0;
@@ -29,11 +29,12 @@ func _physics_process(delta):
 #			t = 0
 	
 func mouse_shoot():
-	if background.current_colour == self.COLOUR:
-		t += 1
-		if t >= firerate:
-			shoot("manual")
-			t = 0
+	pass
+#	if background.current_colour == self.COLOUR:
+#		t += 1
+#		if t >= firerate:
+#			shoot("manual")
+#			t = 0
 
 func shoot(mode):
 	var target;

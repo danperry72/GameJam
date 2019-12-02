@@ -7,11 +7,22 @@ var corners = {"topright":Vector2(), "topleft":Vector2(),
 			   "bottomright":Vector2(), "bottomleft":Vector2(), 
 			   "mid":Vector2(), "midleft": Vector2(), "midright": Vector2(),
 			   "midtop":Vector2(), "midbottom": Vector2() }
-var pos = Vector2()
+
+
 var COLOUR = 2.0;
+var radius = 0.0;
+var change = false;
 var tilesize = 16.0
 onready var tilemap = get_node("TileMap")
+
 const room_shader = preload("res://shaders/new_shader.shader")
+var turret = preload("res://Objects/Turret.tscn")
+onready var area = get_node("Area2D")
+const door_tile_id = 5
+const floor_tile_id = 5
+
+onready var rootNode = get_tree().get_root().get_node("Root")
+onready var Player = rootNode.get_node("Player")
 
 func _ready():
 	randomize()
@@ -29,6 +40,15 @@ func _ready():
 	corners["midbottom"] = Vector2(floor(size.x / 2.0), size.y)
 	corners["midleft"] = Vector2(0.0, floor(size.y / 2.0))
 	corners["midright"] = Vector2(size.x, floor(size.y / 2.0))
+	set_area()
+	
+
+func set_area():
+	var shape = get_node("Area2D/CollisionShape2D").get_shape()
+	shape.set_extents(size * (tilesize / 2.0) )
+	area.position = (size / 2.0) * tilesize
+	Player.area.connect("area_entered", Player, "printo")
+	
 	
 func get_corners():
 	return corners
@@ -37,19 +57,20 @@ func set_position(p):
 	global_position = p - Vector2(floor(size.x / 2), floor(size.y / 2)) * tilesize
 
 func generate_shaders():
-	var mat = ShaderMaterial.new()
-	mat.set_shader(room_shader)
-	self.set_material(mat)
+	material = ShaderMaterial.new()
+	material.set_shader(room_shader)
+	self.set_material(material)
 	self.set_colour(COLOUR)
 	
 func generate(pos, offset):
 	generate_floor(pos, offset)
-
+	generate_shaders()
+	spawn_turrets()
+	
 func generate_floor(pos, offset):
-	var id = 5
 	for i in range(0, size.x + 1):
 		for j in range(0, size.y + 1):
-			tilemap.set_cell(i, j, id)
+			tilemap.set_cell(i, j, floor_tile_id)
 	self.global_position = pos
 
 	for i in tilemap.get_used_cells():
@@ -77,7 +98,57 @@ func get_colour():
 
 func set_colour(colour):
 	COLOUR = colour
+
+func make_doors(dir):
+	var door_placement;
+	var corridor = Vector2()
+	if dir["x"] == -1:
+		door_placement = corners["midleft"]
+		door_placement.x -= 1
+		corridor.x = -3
+	if dir["x"] == 1:
+		door_placement = corners["midright"]
+		door_placement.x += 1
+		corridor.x = 3
+	if dir["y"] == 1:
+		door_placement = corners["midtop"]
+		door_placement.y -= 1
+		corridor.y = -3
+	if dir["y"] == -1:
+		door_placement = corners["midbottom"]
+		door_placement.y += 1
+		corridor.y = 3
 	
+	for i in range(0, corridor.x, sign(corridor.x)):
+		for j in range(0, corridor.y, sign(corridor.y)):
+			print(i,j)
+			tilemap.set_cell(door_placement.x + i, door_placement.y + j, door_tile_id)
+	
+func spawn_turrets():
+	for i in range(0,3):
+		var turret_instance = turret.instance()
+		self.add_child(turret_instance)
+		turret_instance.global_position = Vector2(rand_range(0,size.x * tilesize), rand_range(0, size.y * tilesize))
+
+func trigger(colour):
+	if colour != COLOUR:
+		radius = 0.0
+		COLOUR = colour
+		change = true
+	print(material)
+	material.set_shader_param("colour_mode", colour)
+
+func _physics_process(delta):
+	if change:
+		var pos = Player.get_local_position()
+
+		radius += 50.0
+		material.set_shader_param("position", pos)
+		material.set_shader_param("radius", radius)
+	
+		if radius >= 1000.0:
+			change = false
+			
 #func spawn_enemies():
 #	for i in range(0,3): # Replace with function body.
 #		var instance = GoblinNode.instance()

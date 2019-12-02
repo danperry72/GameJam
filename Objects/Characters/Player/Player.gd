@@ -1,33 +1,37 @@
 extends entity
 
-var tilemap
 onready var rootNode = get_tree().get_root().get_node("Root")
+onready var area = get_node("Area2D")
+var current_room;
+
 func _ready():
-	#body = get_node("physicsbody")
 	entityType = "Player"
 	anim = get_node("AnimatedSprite")
 	hitbox = get_node("CollisionShape2D")
-	tilemap = get_node("../Background")
 	add_camera()
 
 func add_camera():
 	var cameraNode = camera.instance()
 	self.add_child(cameraNode)
 	
+func printo(something):
+	print(something.get_parent().get_name())
+	current_room = something.get_parent()
+	
 func shift_colour(colour):
-	if tilemap.change != true:
-		tilemap.trigger(colour)
+	if current_room.change != true:
+		current_room.trigger(colour)
 
 func input():
 	if(Input.is_action_pressed("colour_shift_red")):
 		shift_colour(1)
-		rootNode.set_colour(1.0)
+		current_room.set_colour(1.0)
 	if(Input.is_action_pressed("colour_shift_green")):
 		shift_colour(2)
-		rootNode.set_colour(2.0)
+		current_room.set_colour(2.0)
 	if(Input.is_action_pressed("colour_shift_blue")):
 		shift_colour(3)
-		rootNode.set_colour(3.0)
+		current_room.set_colour(3.0)
 	if(Input.is_action_pressed("left")):
 		self.change_input("x","left")
 	elif(Input.is_action_pressed("right")):
@@ -59,4 +63,6 @@ func die():
 
 	
 func _process(delta):
+#	print(area.get_overlapping_areas())
+	print(current_room.get_name())
 	input()

@@ -14,7 +14,6 @@ export(int) var max_HP = 50
 onready var hitbox = get_node("CollisionShape2D")
 
 var HP = max_HP
-var attacked_by
 var dead_state = false
 var entityType
 var anim
@@ -102,9 +101,6 @@ func process_state():
 	if state != "running" and state != "dying":
 		state = "idle"
 
-func gravity():
-	velocity += Vector2( 0, gravity )
-	
 func impulse(vector):
 	velocity += accel * vector
 	
