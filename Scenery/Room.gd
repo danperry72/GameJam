@@ -28,8 +28,8 @@ func _ready():
 	randomize()
 	size = Vector2(ceil(rand_range(min_x, max_x)), ceil(rand_range(min_y, max_y)))
 
-	var mid_x = round(size.x / 2.0)
-	var mid_y = round(size.y / 2.0)
+	var mid_x = floor(size.x / 2.0)
+	var mid_y = floor(size.y / 2.0)
 	
 	corners["mid"] = Vector2(mid_x, mid_y)
 	corners["topright"] = Vector2(size.x, 0)
@@ -54,7 +54,7 @@ func get_corners():
 	return corners
 
 func set_position(p):
-	global_position = p - Vector2(floor(size.x / 2), floor(size.y / 2)) * tilesize
+	position = p - Vector2(floor(size.x / 2), floor(size.y / 2)) * tilesize
 
 func generate_shaders():
 	material = ShaderMaterial.new()

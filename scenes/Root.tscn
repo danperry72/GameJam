@@ -17,6 +17,8 @@ __meta__ = {
 position = Vector2( 76.1055, 76.5911 )
 z_index = 2
 z_as_relative = false
+collision_layer = 8
+collision_mask = 8
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
